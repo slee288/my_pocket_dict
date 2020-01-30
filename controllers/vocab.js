@@ -48,3 +48,57 @@ exports.createVocab = async (req, res, next) => {
         });
     }
 }
+
+// @desc   Edit a vocabulary word
+// @route  POST /api/v1/vocabs/edit/:id
+// @access public
+exports.editVocab = async (req, res, next) => {
+    try {
+        const vocab = await Vocabulary.findByIdAndUpdate(req.params.id, req.body);
+
+        if(vocab) {
+            return res.status(200).json({
+                success: true,
+                data: vocab
+            });
+        } else {
+            return res.status(400).json({
+                error: "Could not find any data with id " + req.params.id
+            })
+        }
+
+    } catch(err) {
+        console.error(err);
+
+        res.status(500).json({
+            error: "Server Error"
+        });
+    }
+};
+
+// @desc   Delete a vocabulary word
+// @route  DELETE /api/v1/vocabs/:id
+// @access public
+exports.deleteVocab = async (req, res, next) => {
+    try {
+        const deletedVocab = await Vocabulary.findByIdAndRemove(req.params.id);
+
+        if(deletedVocab) {
+            return res.status(200).json({
+                success: true,
+                data: deletedVocab
+            });
+        } else {
+            return res.status(400).json({
+                error: "No data with the id " + req.params.id + " was found"
+            });
+        }
+
+    } catch(err) {
+        console.error(err);
+
+        res.status(500).json({
+            error: "Server Error"
+        });
+    }
+};
