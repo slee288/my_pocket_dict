@@ -1,11 +1,12 @@
 const router = require("express").Router();
-const {getVocabs, createVocab, editVocab, deleteVocab} = require("../controllers/vocab");
+const {getVocabs, createVocab, findVocab, editVocab, deleteVocab} = require("../controllers/vocab");
 
 router.route("/")
     .get(getVocabs)
     .post(createVocab);
 
 router.route("/:id")
+    .get(findVocab)
     .delete(deleteVocab);
 
 router.route("/edit/:id")

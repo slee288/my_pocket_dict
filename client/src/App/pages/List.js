@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import axios from "axios";
 
 class List extends Component {
     // Initialize the state
@@ -16,12 +17,14 @@ class List extends Component {
 
     // Retrieves the list of vocabulary from the Express App
     async getList() {
-        // const url = "http://localhost:5000/api/v1/vocabs";
-        const url = "https://shielded-refuge-43860.herokuapp.com/api/v1/vocabs";
-        const res = await fetch(url);
-        const vocabs = await res.json();
-        this.setState({vocabList: vocabs.data});
-        console.log(vocabs.data);
+        const url = "http://localhost:5000/api/v1/vocabs";
+
+        // exclusively for heroku production
+        // const url = "https://shielded-refuge-43860.herokuapp.com/api/v1/vocabs";
+        
+        const res = await axios.get(url);
+        const vocabList = res.data.data;
+        this.setState({vocabList});
     }
 
     render() {

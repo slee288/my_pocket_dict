@@ -49,6 +49,32 @@ exports.createVocab = async (req, res, next) => {
     }
 }
 
+// @desc   Find a vocabulary word
+// @route  GET /api/v1/vocabs/:id
+// @access public
+exports.findVocab = async (req, res, next) => {
+    try {
+        const vocab = await Vocabulary.findById(req.params.id);
+
+        if(vocab) {
+            return res.status(200).json({
+                success: true,
+                data: vocab
+            });
+        } else {
+            return res.status(400).json({
+                error: "Could not find a vocabulary word with id " + req.params.id
+            });
+        }
+    } catch(err) {
+        console.error(err);
+
+        return res.status(500).json({
+            error: "Internal Server Error"
+        });
+    }
+}
+
 // @desc   Edit a vocabulary word
 // @route  POST /api/v1/vocabs/edit/:id
 // @access public
